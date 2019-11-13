@@ -10,7 +10,7 @@ This program encrypts hyperlinks with a salted AES 256 and produces a data URL t
          WRONG = www.example.com
          
 3. Enter a GOOD password.
-4. Page will generate a data URL that can be copied into the URL bar and run.
+4. The page will generate a data URL that can be copied into the URL bar and run.
 
 # note
 Data urls have been limited by web browsers as they were perceived to be a security threat to people who were unaware that they can run code and can no longer just be clicked.
@@ -23,8 +23,8 @@ opera   - Must be copied into url bar OR right-click new-tab
 
 IE      - No support
 
-Edge    - unknown if supported
+Edge    - Unknown if supported
 
-Safari  - unknown if supported
+Safari  - Unknown if supported
 
 
