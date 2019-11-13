@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+    
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/pbkdf2.js"></script>
+  </head>
+
+  <body style="background-color:black;" text="white" onload="urlPrompt()">
+    <div id="encrypted"></div>
+    <script>
+
+
+var keySize = 256;
+var ivSize = 128;
+var iterations = 100;
+
+function urlPrompt() {
+  var URL = prompt("Enter Url:", "URL");
+  if (URL == null || URL == "") {
+    urlPrompt();
+  } else {
+    passwordPrompt(URL);
+  }
+}
+
+function passwordPrompt(URL) {
+  var password = prompt("Enter Password:", "PASSWORD");
+  if (password == null || password == "") {
+    passwordPrompt();
+  } else {
+    var encrypted = encrypt(URL, password);
+
+    createBase64DataUrl(encrypted)
+  }
+}
+
+function createBase64DataUrl(encrypted)
+{
+var rawStr = '<!DOCTYPE html>\n<html>\n\n  <head>  <meta http-equiv="refresh" content="1">\n    <script src="https://code.jquery.com/jquery-3.1.1.min.js"\n  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="\n  crossorigin="anonymous"></scr' + 'ipt>\n    \n  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></sc' + 'ript>\n  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/pbkdf2.js"></sc' + 'ript>\n  </head>\n\n  <body style="background-color:black;" text="white" onload="hyperlinkDecrypter(' + "'" + encrypted + "'" + ')">\n    <div id="encrypted"></div>\n    <script>\n\n\nvar keySize = 256;\nvar ivSize = 128;\nvar iterations = 100;\n\nfunction hyperlinkDecrypter(message) {\n  var password = prompt("Enter Password:", "PASSWORD");\n  if (password == null || password == "") {\n    passwordPrompt();\n  } else {\n    var decrypted = decrypt(message, password);\n    var decryptedUrlString = decrypted.toString(CryptoJS.enc.Utf8);\n    console.log(decryptedUrlString);\n    window.location.href = decryptedUrlString\n  }\n}\n\n\n\nfunction decrypt (transitmessage, pass) {\n  var salt = CryptoJS.enc.Hex.parse(transitmessage.substr(0, 32));\n  var iv = CryptoJS.enc.Hex.parse(transitmessage.substr(32, 32))\n  var encrypted = transitmessage.substring(64);\n  \n  var key = CryptoJS.PBKDF2(pass, salt, {\n      keySize: keySize/32,\n      iterations: iterations\n    });\n\n  var decrypted = CryptoJS.AES.decrypt(encrypted, key, { \n    iv: iv, \n    padding: CryptoJS.pad.Pkcs7,\n    mode: CryptoJS.mode.CBC\n    \n  })\n  return decrypted;\n}\n\n\n\n</sc' + 'ript>\n  </body>\n\n</html>';
+var wordArray = CryptoJS.enc.Utf8.parse(rawStr);
+var base64 = CryptoJS.enc.Base64.stringify(wordArray);
+console.log('data:text/html;base64,', base64);
+
+$('#encrypted').text('data:text/html;base64,' + base64);
+
+return;
+
+
+}
+
+function encrypt (msg, pass) {
+  var salt = CryptoJS.lib.WordArray.random(128/8);
+  
+  var key = CryptoJS.PBKDF2(pass, salt, {
+      keySize: keySize/32,
+      iterations: iterations
+    });
+
+  var iv = CryptoJS.lib.WordArray.random(128/8);
+  
+  var encrypted = CryptoJS.AES.encrypt(msg, key, { 
+    iv: iv, 
+    padding: CryptoJS.pad.Pkcs7,
+    mode: CryptoJS.mode.CBC
+    
+  });
+  
+  // salt, iv will be hex 32 in length
+  // append them to the ciphertext for use  in decryption
+  var transitmessage = salt.toString()+ iv.toString() + encrypted.toString();
+  return transitmessage;
+}
+
+
+</script>
+  </body>
+
+</html>
