@@ -2,7 +2,7 @@
 This program encrypts hyperlinks with a salted AES 256 and produces a data URL that will decrypt and follow the hyperlink provided the correct password is entered.
 
 # Usage
-1. Open the html file in web browser.
+1. Open the html file in a web browser.
 2. In the prompt box enter the url in this format:
 
          RIGHT = https://www.examplesite.com http://www.examplesite.com
