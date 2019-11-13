@@ -15,11 +15,11 @@ This program encrypts hyperlinks with a salted AES 256 and produces a data URL t
 # note
 Data urls have been limited by web browsers as they were perceived to be a security threat to people who were unaware that they can run code and can no longer just be clicked.
 
-firefox - Must be copied into url bar
+Firefox - Must be copied into url bar
 
-chrome  - Must be copied into url bar OR right-click new-tab
+Chrome  - Must be copied into url bar OR right-click new-tab
 
-opera   - Must be copied into url bar OR right-click new-tab
+Opera   - Must be copied into url bar OR right-click new-tab
 
 IE      - No support
 
